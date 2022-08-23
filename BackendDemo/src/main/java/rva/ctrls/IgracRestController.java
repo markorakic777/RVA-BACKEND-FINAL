@@ -31,6 +31,7 @@ import rva.repositories.TimRepository;
 
 @CrossOrigin 
 @RestController
+
 public class IgracRestController {
 	
 	@Autowired
@@ -48,6 +49,7 @@ public class IgracRestController {
 	private NacionalnostRepository nacionalnostRepository;
  
 	@GetMapping("igrac")	
+	
 	public Collection<Igrac> getIgrac() {
 		return igracRepository.findAll();
 		}
@@ -98,6 +100,7 @@ public Collection<Igrac> getIgracByNacionalnost(@PathVariable("id") Integer id )
 Nacionalnost nac= nacionalnostRepository.getById(id);
 return igracRepository.findByNacionalnost(nac);
 }
+
 
 @GetMapping("igracByTim/{id}")
 public Collection<Igrac> getIgracByTim(@PathVariable("id") Integer id )
