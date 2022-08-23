@@ -7,52 +7,55 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 
 import rva.jpa.Igrac;
+import rva.jpa.Liga;
 import rva.jpa.Nacionalnost;
 import rva.jpa.Tim;
 import rva.repositories.IgracRepository;
 import rva.repositories.NacionalnostRepository;
 import rva.repositories.TimRepository;
 
-// dependency injection tj injektovanje zavisnosti je injektovanje tj 
 
 
+@CrossOrigin 
 @RestController
 public class IgracRestController {
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplate; //sta je ovi
 	
 	
 	@Autowired
 	private IgracRepository igracRepository;
 	@Autowired
-	private IgracRepository TimRepository;
+	private TimRepository timRepository;
 
 
-	@Autowired
-	private IgracRepository igracRepositroy;
+
 	@Autowired
 	private NacionalnostRepository nacionalnostRepository;
  
 	@GetMapping("igrac")	
-	public Collection<Igrac> getigraci() {
+	public Collection<Igrac> getIgrac() {
 		return igracRepository.findAll();
 		}
 
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings("deprecation") // ovo znaci da mozemo koristtii starije sintkase
 	@GetMapping("igrac/{id}")
 	public Igrac getIgrac(@PathVariable("id") Integer id) {
-		return igracRepository.getOne(id);
+		return igracRepository.getById(id);
 		}
 
     
@@ -90,22 +93,29 @@ public ResponseEntity<Igrac> Updateigrac(@RequestBody Igrac igrac)
 
 
 @GetMapping("IgracByNacionalnost/{id}")
-public Collection<Nacionalnost> getIgracByNacionalnost(@PathVariable("id") Integer id )
+public Collection<Igrac> getIgracByNacionalnost(@PathVariable("id") Integer id )
 {
 Nacionalnost nac= nacionalnostRepository.getById(id);
 return igracRepository.findByNacionalnost(nac);
 }
 
+@GetMapping("igracByTim/{id}")
+public Collection<Igrac> getIgracByTim(@PathVariable("id") Integer id )
+{
+Tim tim= timRepository.getById(id);
+return igracRepository.findByTim(tim);
+}
 
 
 
-
-@DeleteMapping("igracDelete/{id}")
-public ResponseEntity<Igrac> Deleteigrac(@PathVariable("id") Integer id)
+@DeleteMapping("igrac/{id}")
+public ResponseEntity<Igrac> DeleteIgrac(@PathVariable("id") Integer id)
 {
 
 	if(igracRepository.existsById(id)) {
 		igracRepository.deleteById(id);
+		return new ResponseEntity<Igrac>(HttpStatus.OK);
+		}
 		
 		if(id==-100)
 		{
@@ -117,11 +127,12 @@ public ResponseEntity<Igrac> Deleteigrac(@PathVariable("id") Integer id)
 			
 			jdbcTemplate.execute("insert into liga (id,naziv,oznaka) values (-100,'test','test')");
 
+			return new ResponseEntity<Igrac>(HttpStatus.OK);
 			// klaasa ne sme da ima strani kljuc	
 		}
 		
-		return new ResponseEntity<Igrac>(HttpStatus.OK);
-		}
+		
+		
 		return new ResponseEntity<Igrac>(HttpStatus.NO_CONTENT);
 	
 }
