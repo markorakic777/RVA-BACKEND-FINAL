@@ -15,7 +15,7 @@ public interface TimRepository extends JpaRepository<Tim, Integer>{
 
 	Collection<Tim> findByNazivContainingIgnoreCase(String naziv);
 
-	Collection<Liga> findByLiga(Liga lig);
+	Collection<Tim> findByLiga(Liga lig);
 
 
 

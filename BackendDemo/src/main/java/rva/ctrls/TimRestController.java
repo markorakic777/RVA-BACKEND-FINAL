@@ -86,7 +86,7 @@ public ResponseEntity<Tim> UpdateTim(@RequestBody Tim Tim)
 
 
 @GetMapping("timByLiga/{id}")
-public Collection<Liga> getTimByLiga(@PathVariable("id") Integer id )
+public Collection<Tim> getTimByLiga(@PathVariable("id") Integer id )
 {
 Liga lig= ligaRepositroy.getById(id);
 return  TimRepository.findByLiga(lig);
