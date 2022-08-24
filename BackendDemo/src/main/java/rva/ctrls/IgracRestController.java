@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -24,6 +25,7 @@ import rva.jpa.Liga;
 import rva.jpa.Nacionalnost;
 import rva.jpa.Tim;
 import rva.repositories.IgracRepository;
+import rva.repositories.LigaRepository;
 import rva.repositories.NacionalnostRepository;
 import rva.repositories.TimRepository;
 
@@ -47,6 +49,13 @@ public class IgracRestController {
 
 	@Autowired
 	private NacionalnostRepository nacionalnostRepository;
+
+
+	@Autowired
+	private LigaRepository ligaRepository;
+
+
+
  
 	@GetMapping("igrac")	
 	
@@ -122,14 +131,16 @@ public ResponseEntity<Igrac> DeleteIgrac(@PathVariable("id") Integer id)
 		
 		if(id==-100)
 		{
-			jdbcTemplate.execute("insert into igrac (id,ime,prezime,broj_reg,datum_rodjenja,nacionalnost,tim) values (-100,'test','test','test',to_date('01.03.1987', 'dd.mm.yyyy.'),-101,-102)");
-
-
-
-			jdbcTemplate.execute("insert into nacionalnost (id,naziv,skracenica) values (-100,'test','test')");
 			
-			jdbcTemplate.execute("insert into liga (id,naziv,oznaka) values (-100,'test','test')");
 
+
+
+		if(!nacionalnostRepository.existsById(-100))	jdbcTemplate.execute("insert into nacionalnost (id,naziv,skracenica) values (-100,'test','test')");
+			
+		if(!ligaRepository.existsById(-100))    jdbcTemplate.execute("insert into liga (id,naziv,oznaka) values (-100,'test','test')");
+
+			jdbcTemplate.execute("insert into igrac (id,ime,prezime,broj_reg,datum_rodjenja,nacionalnost,tim) values (-100,'test','test','test',to_date('01.03.1987', 'dd.mm.yyyy.'),-100,-100)");
+			
 			return new ResponseEntity<Igrac>(HttpStatus.OK);
 			// klaasa ne sme da ima strani kljuc	
 		}

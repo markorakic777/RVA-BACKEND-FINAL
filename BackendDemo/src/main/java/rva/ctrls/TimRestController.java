@@ -98,12 +98,15 @@ public ResponseEntity<Tim> DeleteTim(@PathVariable("id") Integer id)
 
 	if(TimRepository.existsById(id)) {
 		TimRepository.deleteById(id);
-		return new ResponseEntity<Tim>(HttpStatus.OK);}
+		}
 		
 		if(id==-100)
+	
 		{
-			jdbcTemplate.execute("insert into Tim (id,naziv,osnovan,sediste,liga) values (-100,'test',to_date('01.03.1987', 'dd.mm.yyyy.'),'test',-101)");
-			jdbcTemplate.execute("insert into liga (id,naziv,oznaka) values (-100,'test','test')");
+			if(!ligaRepositroy.existsById(-100))	jdbcTemplate.execute("insert into liga (id,naziv,oznaka) values (-100,'test','test')"); 
+			jdbcTemplate.execute("insert into tim (id,naziv,osnovan,sediste,liga) values (-100,'test',to_date('01.03.1987', 'dd.mm.yyyy.'),'test',-100)");
+	
+		
 			// klaasa ne sme da ima strani kljuc	
 			return new ResponseEntity<Tim>(HttpStatus.OK);
 		}
