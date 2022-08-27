@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import io.swagger.annotations.ApiOperation;
 import rva.jpa.Igrac;
 import rva.jpa.Liga;
 import rva.jpa.Nacionalnost;
@@ -58,7 +58,7 @@ public class IgracRestController {
 
  
 	@GetMapping("igrac")	
-	
+	@ApiOperation(value = "Vraca kolekciju igraca iz baze podataka")
 	public Collection<Igrac> getIgrac() {
 		return igracRepository.findAll();
 		}
