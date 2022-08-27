@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiOperation;
 import rva.jpa.Liga;
 import rva.jpa.Nacionalnost;
 import rva.repositories.LigaRepository;
@@ -39,12 +40,14 @@ public class LigaRestController {
 	
 
     @GetMapping("liga")	
+    @ApiOperation(value = "Vraca json objekte liga iz baze podataka")
 	public Collection<Liga> getLiga() {
 		return LigaRepository.findAll();
 		}
 
     @SuppressWarnings("deprecation")
 	@GetMapping("liga/{id}")
+    @ApiOperation(value = "Vraca json objekte lige sa datim id-jem")
 	public Liga getLiga(@PathVariable("id") Integer id) {
 		return LigaRepository.getById(id);
 		}
@@ -57,6 +60,7 @@ public class LigaRestController {
 
 
 @PostMapping("liga")
+@ApiOperation(value = "Dodaje u bazu instancu TE liga ")
 public ResponseEntity<Liga> InsertLiga(@RequestBody Liga liga)
 {
 
@@ -69,6 +73,7 @@ return new ResponseEntity<Liga>(HttpStatus.CONFLICT);
 }
 
 @PutMapping("liga")
+@ApiOperation(value = "Azurira u bazi TE liga")
 public ResponseEntity<Liga> UpdateLiga(@RequestBody Liga Liga)
 {
 
@@ -88,6 +93,7 @@ public ResponseEntity<Liga> UpdateLiga(@RequestBody Liga Liga)
 
 
 @DeleteMapping("liga/{id}")
+@ApiOperation(value = "Brise instancu TE liga sa datim id-jem")
 public ResponseEntity<Liga> DeleteLiga(@PathVariable("id") Integer id)
 {
 

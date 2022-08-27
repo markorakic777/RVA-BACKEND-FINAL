@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiOperation;
 import rva.jpa.Igrac;
 import rva.jpa.Liga;
 import rva.jpa.Nacionalnost;
@@ -41,18 +42,21 @@ public class TimRestController {
 	private LigaRepository ligaRepositroy;
 	
     @GetMapping("tim")	
+    @ApiOperation(value = "Vraca sve timove iz baze")
 	public Collection<Tim> getTimovi() {
 		return TimRepository.findAll();
 		}
 
     
 	@GetMapping("tim/{id}")
+	@ApiOperation(value = "Vraca tim iz baze po prosledjenom id-ju")
 	public Tim getTim(@PathVariable("id") Integer id) {
 		return TimRepository.getById(id);
 		}
 
     
     @GetMapping("timNaziv/{naziv}")
+    @ApiOperation(value = "Vraca tim iz baze podatka po prosledjenom nazivu")
 	public Collection<Tim>  getTim(@PathVariable("naziv") String naziv) {
 		return TimRepository.findByNazivContainingIgnoreCase(naziv);
 		}
@@ -60,6 +64,7 @@ public class TimRestController {
 
 
 @PostMapping("tim")
+@ApiOperation(value = "Unosi instacu TE tim u bazu podataka")
 public ResponseEntity<Tim> InsertTim(@RequestBody Tim Tim)
 {
 
@@ -86,6 +91,7 @@ public ResponseEntity<Tim> UpdateTim(@RequestBody Tim Tim)
 
 
 @GetMapping("timByLiga/{id}")
+@ApiOperation(value = "Vraca tim po prosledjenom idju lige")
 public Collection<Tim> getTimByLiga(@PathVariable("id") Integer id )
 {
 Liga lig= ligaRepositroy.getById(id);
@@ -93,6 +99,7 @@ return  TimRepository.findByLiga(lig);
 }
 
 @DeleteMapping("tim/{id}")
+@ApiOperation(value = "Brise tim iz baze po proslejdneom id-ju")
 public ResponseEntity<Tim> DeleteTim(@PathVariable("id") Integer id)
 {
 

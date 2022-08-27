@@ -65,12 +65,14 @@ public class IgracRestController {
 
     @SuppressWarnings("deprecation") // ovo znaci da mozemo koristtii starije sintkase
 	@GetMapping("igrac/{id}")
+    @ApiOperation(value = "Vraca json objekat igraca iz baze podataka po prosledjenom id-ju")
 	public Igrac getIgrac(@PathVariable("id") Integer id) {
 		return igracRepository.getById(id);
 		}
 
     
     @GetMapping("igracNaziv/{ime}")
+    @ApiOperation(value = "Vraca json objekat igraca po nazivu Igraca")
 	public Collection<Igrac>  getIgrac(@PathVariable("ime") String ime) {
 		return igracRepository.findByImeContainingIgnoreCase(ime);
 		}
@@ -79,6 +81,7 @@ public class IgracRestController {
 
 
 @PostMapping("igrac")
+@ApiOperation(value = "Unosi u bazu instancu tipa entiteta igrac")
 public ResponseEntity<Igrac> InsertIgrac(@RequestBody Igrac igrac)
 {
 
@@ -91,6 +94,7 @@ return new ResponseEntity<Igrac>(HttpStatus.CONFLICT);
 }
 
 @PutMapping("igrac")
+@ApiOperation(value = "Azurira instancu tipa entiteta igrac")
 public ResponseEntity<Igrac> Updateigrac(@RequestBody Igrac igrac)
 {
 
@@ -104,6 +108,7 @@ public ResponseEntity<Igrac> Updateigrac(@RequestBody Igrac igrac)
 
 
 @GetMapping("IgracByNacionalnost/{id}")
+@ApiOperation(value = "Vraca json objekat igraca iz baze podataka po prosledj@ApiOperation(value = \"Vraca igraca iz baze podataka po prosledjenom id-ju nacionalnostii")
 public Collection<Igrac> getIgracByNacionalnost(@PathVariable("id") Integer id )
 {
 Nacionalnost nac= nacionalnostRepository.getById(id);
@@ -112,6 +117,7 @@ return igracRepository.findByNacionalnost(nac);
 
 
 @GetMapping("igracByTim/{id}")
+@ApiOperation(value = "Vraca json objekat igraca iz baze podataka po prosledjenom id-ju tima")
 public Collection<Igrac> getIgracByTim(@PathVariable("id") Integer id )
 {
 Tim tim= timRepository.getById(id);
@@ -121,7 +127,9 @@ return igracRepository.findByTim(tim);
 
 
 @DeleteMapping("igrac/{id}")
+@ApiOperation(value = "Brise igraca iz baze podataka po prosledjenom id-ju")
 public ResponseEntity<Igrac> DeleteIgrac(@PathVariable("id") Integer id)
+
 {
 
 	if(igracRepository.existsById(id)) {

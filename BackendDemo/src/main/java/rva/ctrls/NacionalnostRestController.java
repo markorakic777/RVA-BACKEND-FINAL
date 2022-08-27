@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiOperation;
 import rva.jpa.Igrac;
 import rva.jpa.Nacionalnost;
 import rva.repositories.IgracRepository;
@@ -35,18 +36,21 @@ public class NacionalnostRestController {
 	private JdbcTemplate jdbcTemplate;
 	
 	@GetMapping("Nacionalnost")
+	@ApiOperation(value = "Vraca sve json objekte nacionalnosti")
 	public Collection<Nacionalnost> getNacionalnosti()
 	{
 		return nacionalnostRepository.findAll();
 	}
 
 	@GetMapping("Nacionalnost/{id}")
+	@ApiOperation(value = "Vraca json objekat nacionalnosti sa datim id-jem")
 	public Nacionalnost getNacionalnost(@PathVariable("id") Integer id)
 	{
 		return nacionalnostRepository.getById(id);
 	}
 	
 	@GetMapping("NacionalnostNaziv/{naziv}")
+	@ApiOperation(value = "Vraca nacionalnosti sa datim nazivom")
 	
 	public Collection<Nacionalnost> getNacionalnostByNaziv(@PathVariable("naziv") String naziv)
 	{
@@ -54,7 +58,7 @@ public class NacionalnostRestController {
 	}
 	
 	@PostMapping("Nacionalnost")
-
+	@ApiOperation(value = "Dodaje instacu TE nacionalnost u bazu podataka")
 	public ResponseEntity<Nacionalnost> insertNacionalnost(@RequestBody Nacionalnost nacionalnost)
 	{
 		if(!nacionalnostRepository.existsById(nacionalnost.getId()))
@@ -67,7 +71,7 @@ public class NacionalnostRestController {
 	}
 	
 	@PutMapping("Nacionalnost")
-
+	@ApiOperation(value = "Azurira instacu TE Nacionalnost u bazi podataka")
 	public ResponseEntity<Nacionalnost> updateNacionalnost(@RequestBody Nacionalnost nacionalnost)
 	{
 		if(!nacionalnostRepository.existsById(nacionalnost.getId()))
@@ -80,6 +84,7 @@ public class NacionalnostRestController {
 	
 
 	@DeleteMapping("Nacionalnost/{id}")
+	@ApiOperation(value = "Brise instancu TE nacionalnosti po prosledjenom id-ju")
 	public ResponseEntity<Nacionalnost> deleteNacionalnost(@PathVariable Integer id)
 	{
 		if(!nacionalnostRepository.existsById(id))
